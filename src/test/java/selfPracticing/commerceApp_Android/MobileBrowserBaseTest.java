@@ -1,4 +1,4 @@
-package selfPracticing.commerceApp;
+package selfPracticing.commerceApp_Android;
 
 import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.AppiumBy;
@@ -10,7 +10,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.DeviceRotation;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -26,6 +25,7 @@ public class MobileBrowserBaseTest
 {
     public AndroidDriver driver;
     public AppiumDriverLocalService service;
+    WebDriverWait wait;
     @BeforeClass
     public void configureAppium() throws MalformedURLException {
 
@@ -50,20 +50,20 @@ public class MobileBrowserBaseTest
 
     public void acceptGoogleCookies()
     {
-        By readMoreElement = By.xpath("(//div[contains(text(),'Weitere Informationen')])[1]");
-        By acceptAllElement = By.xpath("//div[normalize-space()='Alle akzeptieren']");
-
-        int maxAttempts = 10;
+        By readMoreCookies = By.xpath("(//div[contains(text(),'Weitere Optionen')])[1]");
+        By rejectAllCookies = By.xpath("//div[normalize-space()='Alle ablehnen']");
         int attempt = 0;
-        while (attempt < maxAttempts) {
+        while (attempt < 2) {
+            ((JavascriptExecutor)driver).executeScript("arguments[0]. scrollIntoView();",driver.findElement(rejectAllCookies) );
             try {
-                if (driver.findElement(readMoreElement).isDisplayed()) {
-                    driver.findElement(readMoreElement).click();
-                    attempt++;
-                }else if (driver.findElement(acceptAllElement).isDisplayed()) {
-                    driver.findElement(acceptAllElement).click();
+                 if (driver.findElement(rejectAllCookies).isDisplayed()) {
+                    clickOnElementBy(rejectAllCookies);
                     break;
-                }else {
+                }
+                else if (driver.findElement(readMoreCookies).isDisplayed()) {
+                    clickOnElementBy(readMoreCookies);
+                    attempt++;
+                } else {
                     break;
                 }
             } catch (Exception e) {
@@ -155,6 +155,12 @@ public class MobileBrowserBaseTest
         letsShopBtn.click();
     }
 
+    public void clickOnElementBy(By element)
+    {
+        wait = new WebDriverWait(driver,Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.elementToBeClickable(element));
+        driver.findElement(element).click();
+    }
     @AfterClass
     public void tearDown()
     {

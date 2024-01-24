@@ -1,16 +1,15 @@
-package selfPracticing.commerceApp;
+package selfPracticing.commerceApp_Android;
 
 import io.appium.java_client.AppiumBy;
 import org.testng.annotations.Test;
 
-import java.time.Duration;
-
 import static org.testng.Assert.assertEquals;
 
-public class OrderSubmission extends BaseTest
+public class TermsAndConditions extends BaseTest
 {
     @Test
-    public void  orderSubmission() throws InterruptedException {
+    public void  checkTermsAndConditions()
+    {
         //Jump directly to product list page
         jumpToProductListPage();
         //Add product to the cart
@@ -30,9 +29,5 @@ public class OrderSubmission extends BaseTest
 
         //Close the popup
         driver.findElement(AppiumBy.id("android:id/button1")).click();
-
-        //Click on Complete purchase button
-        driver.findElement(AppiumBy.id("com.androidsample.generalstore:id/btnProceed")).click();
-
     }
 }

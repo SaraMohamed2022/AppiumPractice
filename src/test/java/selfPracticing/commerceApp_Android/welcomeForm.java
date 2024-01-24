@@ -1,4 +1,4 @@
-package selfPracticing.commerceApp;
+package selfPracticing.commerceApp_Android;
 
 import io.appium.java_client.AppiumBy;
 import org.openqa.selenium.WebElement;
